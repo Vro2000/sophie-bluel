@@ -125,6 +125,41 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+/***************************************************************/
+.menu-categories {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+.menu-categories button {
+    font-family: 'Syne';
+    font-weight: 700;
+    color:#1D6154;
+    background-color: white;
+    width: auto; /* Adaptation automatique à la taille du texte */
+    text-align: center;
+    border-radius: 60px;
+    padding: 0.4em 1em;
+	margin-bottom: 2.5em;
+    border: 1px solid #1D6154;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.menu-categories button:hover:not(.active) {
+    background-color: #1d615432; /* Optionnel : change la couleur de fond au survol pour les boutons inactifs */
+}
+
+.menu-categories button.active {
+    background-color: #1D6154;
+    color: white;
+
+}
+/*******************************************************************/
+
+
+
 .gallery {
 	width: 100%;
 	display: grid;
