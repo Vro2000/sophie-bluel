@@ -1,0 +1,189 @@
+.div-exit {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; /* Centre les éléments verticalement */
+    width: 100%; 
+}
+.close {
+    align-self: flex-end;
+    cursor: pointer;
+    font-size: 30px;
+    color: #333;
+}
+.back {
+    margin-left: 0;
+    font-size: 20px;
+    cursor: pointer;
+}
+.modal h2 {
+    font-family: 'Work Sans';
+    font-weight: 400;
+    font-size: 26px;
+    margin-bottom: 30px;
+}
+.modal {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    border-radius: 8px;
+    padding: 20px;
+    z-index: 1; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centre horizontalement les enfants */
+    justify-content: center; /* Centre verticalement les enfants */
+    width: 50%; 
+    max-height: 100vh; 
+    
+}
+
+.photos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centre `.modal-content` horizontalement */
+    align-items: flex-start; /* align en haut `.modal-content` verticalement */
+    width: 75%; 
+    padding: 0 6px 60px 6px;
+    border-bottom: 1px solid #888;
+    overflow: hidden; /* Cache les débordements */
+    justify-content: flex-start; 
+
+}
+.modal-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+#photo-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.project-item {
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 calc(20% - 10px); /* Flex basis calcule la largeur de chaque élément moins margin */
+    margin: 0 5px 25px 5px;
+}
+.project-item img {
+    max-width: 100%; /* Empêche l'image de déborder du conteneur */
+    max-height: 100%; /* Assure que la hauteur ne dépasse pas le conteneur */
+}
+.delete-icon {
+    position: absolute;
+    color: white;
+    font-weight: bold;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    background-color: black;
+    border-radius: 10%;
+    padding: 5px;
+}
+.modal label {
+    margin: 2em 0 1em 0;
+    font-family: "work sans";
+    font-weight: 500;
+    color: #3D3D3D;
+}
+
+.modal select,
+.modal input {
+    width: 100%;
+    height: 50px;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    cursor: pointer;
+    background-color: white;
+    font-family: "work sans";
+    font-weight: 400;
+    color: #444444;
+}
+
+.modal input[type="submit"] {
+    font-family: 'Syne';
+	font-size: 14px;
+    font-weight: 300;
+    color: white;
+    background-color: #1D6154;
+    margin: 2.2em auto;
+	max-width: 240px;
+	height: 36px;
+    padding-left: 60px;
+	padding-right: 60px;
+    text-align: center;
+    border-radius: 60px;
+    border: none;
+}
+.modal input[type="submit"]:hover {
+	color: white;
+	background-color: #A7A7A7;
+}
+
+
+.upload-container {
+    width: 100%;
+    height: 180px;
+    background: #E8F1F6; /* Couleur de fond du container */
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Ajouté pour le positionnement de l'image */
+
+}
+#photo-preview {
+    object-fit: contain;
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+.upload-icon i {
+    font-size: 70px; /* Taille de l'icône */
+    color: #B9C5CC;
+}
+
+.upload-container label {
+    width: 40%;
+    background: #CBD6DC;
+    border: none;
+    padding: 10px 10px;
+    margin-top: 10px;
+    border-radius: 20px; /* Rayon du bouton */
+    color: #306685;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+}
+.upload-container:hover label {
+    background: #A7A7A7; /* Couleur de fond du bouton lors du survol */
+    color: white;
+}
+
+.upload-info {
+    font-size: 10px;
+    font-weight: 400;
+    color: #606060;
+}
+
+
+    
+
+
+
+
+
+
+
+

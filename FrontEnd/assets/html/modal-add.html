@@ -1,0 +1,31 @@
+<!-- Seconde Modale pour Ajouter une Photo -->
+<div id="modal-add-id" class="modal">
+    <div class="div-exit" >
+        <span class="back"><i class="fa-solid fa-arrow-left"></i></span>
+        <span class="close">&times;</span>
+    </div>
+        <h2>Ajout Photo</h2>
+      
+    
+    
+        <form id="photo-form"  >
+        <div class="photos">
+            <div class="upload-container">
+                <input type="file" id="upload-photo" class="hidden" accept="image/png, image/jpeg">
+                    <div class="upload-icon"><i class="fa-regular fa-image"></i></div>
+                    <label for="upload-photo" >+ Ajouter photo</label>
+                    <span class="upload-info">jpg, png : 4mo max</span>
+                    <img id="photo-preview" class="hidden" alt="Aperçu de la photo" >
+            </div>
+
+            <label for="photo-title">Titre</label>
+            <input  id="photo-title" type="text" placeholder="" >
+            <label for="category-select">Catégories</label>
+            <select id="category-select"></select>
+
+        </div>
+            <input id="submit-photo" type="submit" value="Valider">
+            
+        </form>
+</div>
+  
