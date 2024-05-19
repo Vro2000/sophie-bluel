@@ -21,6 +21,15 @@
     font-size: 26px;
     margin-bottom: 30px;
 }
+#add-alerte, #del-alerte{
+    color: brown;
+    text-shadow: 2px 2px 8px yellowgreen;
+    font-size: 22px;
+    font-weight: 900;
+    width: 100%;
+    min-height: 30px;
+    padding-top: 30px;
+}
 .modal {
     position: absolute;
     top: 10%;
@@ -46,7 +55,7 @@
     justify-content: center; /* Centre `.modal-content` horizontalement */
     align-items: flex-start; /* align en haut `.modal-content` verticalement */
     width: 75%; 
-    padding: 0 6px 60px 6px;
+    padding: 0 6px 0px 6px;
     border-bottom: 1px solid #888;
     overflow: hidden; /* Cache les débordements */
     justify-content: flex-start; 
@@ -69,6 +78,7 @@
     justify-content: center;
     align-items: center;
     flex: 0 0 calc(20% - 10px); /* Flex basis calcule la largeur de chaque élément moins margin */
+    height: 100px;
     margin: 0 5px 25px 5px;
 }
 .project-item img {
@@ -86,6 +96,7 @@
     border-radius: 10%;
     padding: 5px;
 }
+
 .modal label {
     margin: 2em 0 1em 0;
     font-family: "work sans";
