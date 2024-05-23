@@ -11,7 +11,7 @@ document.getElementById("login-form").addEventListener("submit", async function(
                 'accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
+            body: JSON.stringify({ // converti au format json
                 email: email,
                 password: password
             })
@@ -25,13 +25,8 @@ document.getElementById("login-form").addEventListener("submit", async function(
         window.location.href = "../../index.html";
 
     } catch (response) {
-        try {
-            const errorData = await response.json();
-            const messageErreur = errorData.message ? `Email ou mot de passe incorrect : ${errorData.message}.` : "Email ou mot de passe incorrect.";
-            alert(messageErreur);
-        } catch (error) {
-            // Si une erreur se produit lors de la lecture du JSON, nous affichons un message d'erreur générique
-            alert("Une erreur est survenue lors de la connexion.");
-        }
+            console.log(response)
+            alert("Email ou mot de passe incorrect.");
+        
     }
 });

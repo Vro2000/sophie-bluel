@@ -1,13 +1,11 @@
 const isAdmin = Boolean(localStorage.getItem("token"));
 let projetsTab = [];
 let categoriesTab = [];
-let activeModal = undefined;
 
 Promise.all([
 	fetch("http://localhost:5678/api/works").then((response) => response.json()),
-	fetch("http://localhost:5678/api/categories").then((response) =>
-		response.json()
-	),
+	fetch("http://localhost:5678/api/categories").then((response) => response.json()),
+
 ]).then((ResponsesTab) => {
 	projetsTab = ResponsesTab[0];
 	categoriesTab = ResponsesTab[1];
@@ -16,26 +14,25 @@ Promise.all([
 });
 
 function loadPageFonct() {
-	if (!isAdmin) {
+	if (!isAdmin) { // test la variable globale isadmin
 		const allCategoriesTab = [{ id: 0, name: "Tous" }, ...categoriesTab]; // Ajout d'une catégorie "Tous"
 		allCategoriesTab.forEach((categorie) => {
-			const menuCategHtml = document.getElementById("menu-categories");
+			const menuCategHtml = document.getElementById("menu-categories"); // trouve la div dans le html
 			const buttonHtml = document.createElement("button");
 			buttonHtml.textContent = categorie.name;
 			menuCategHtml.appendChild(buttonHtml);
 
-			if (categorie.name === "Tous") {
-				// indique "Tous" sélectionné par défaut
+			if (categorie.name === "Tous") { // "Tous" est sélectionné par défaut
 				buttonHtml.classList.add("active");
-				selectedProjetsFonct(0);
+				galleryProjetsFonct(0);
 			}
 
 			buttonHtml.addEventListener("click", () => {
 				document.querySelectorAll(".menu-categories button").forEach((btn) => {
 					btn.classList.remove("active");
 				});
-				buttonHtml.classList.add("active");
-				selectedProjetsFonct(categorie.id);
+				buttonHtml.classList.add("active"); // le bouton cliqué est selectionné
+				galleryProjetsFonct(categorie.id);
 			});
 		});
 	} else {
@@ -46,9 +43,9 @@ function loadPageFonct() {
 function loadPageAdmin() {
 	const menuCategHtml = document.getElementById("menu-categories");
 	menuCategHtml.style.display = "none";
-	selectedProjetsFonct(0);
+	galleryProjetsFonct(0);
 
-	const logInOut = document.getElementById("log-in-out");
+	const logInOut = document.getElementById("log-in-out"); // on récupère les éléments html à modifier
 	const modeEdition = document.getElementById("mode-edition");
 	const modifyLabel = document.querySelector("label[for='modify-btn']");
 
@@ -56,38 +53,36 @@ function loadPageAdmin() {
 	modeEdition.classList.remove("hidden");
 	modifyLabel.classList.remove("hidden");
 
-	logInOut.addEventListener("click", () => {
+	logInOut.addEventListener("click", () => { // au click sur logout on efface le token
 		localStorage.removeItem("token");
 		window.location.href = "assets/html/login.html";
 	});
 }
-
-function selectedProjetsFonct(categorieId) {
+function galleryProjetsFonct(categorieId) { //catégorieid transmise au click sur buttonhtml du menu
 	const galleryHtml = document.querySelector(".gallery");
-	galleryHtml.innerHTML = "";
+	galleryHtml.innerHTML = ""; // vide la galerie
 
 	let selectedProjetsTab;
 	if (categorieId === 0) {
 		selectedProjetsTab = projetsTab;
 	} else {
-		selectedProjetsTab = projetsTab.filter(
-			(projets) => projets.categoryId === categorieId
-		);
+		selectedProjetsTab = projetsTab.filter((item) => item.categoryId === categorieId );
+		// méthode filter() trouve dans projetTab tous ceux qui ont la bonne categorieId
 	}
 
-	selectedProjetsTab.forEach((projet) => {
+	selectedProjetsTab.forEach((selectedProjet) => {
 		const figureHtml = document.createElement("figure");
 
 		const imgHtml = document.createElement("img");
-		imgHtml.src = projet.imageUrl;
-		imgHtml.alt = projet.title;
+		imgHtml.src = selectedProjet.imageUrl;
+		imgHtml.alt = selectedProjet.title;
 
 		const figcaptionHtml = document.createElement("figcaption");
-		const title = projet.title;
-		const foundCategory = categoriesTab.find(
-			(categorie) => categorie.id === projet.categoryId
-		);
-		const categoryName = foundCategory.name;
+		const title = selectedProjet.title;
+
+		// fonction find cherche l'entrée dans categoriesTab qui à la même id que le selectedProjet
+		const foundCategoryTab = categoriesTab.find((item) => item.id === selectedProjet.categoryId);
+		const categoryName = foundCategoryTab.name; 
 		figcaptionHtml.textContent = `${title} - ${categoryName}`;
 
 		galleryHtml.appendChild(figureHtml);
@@ -100,7 +95,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	// Initialisation du DOM terminée, les données sont récupérées
 });
 
-// Fonction pour vérifier et charger la modale si la variable est présente
+// Fonction pour vérifier et charger la modale si la variable est présente dans local storage
 function checkAndLoadModal() {
 	const message = localStorage.getItem("message");
 
