@@ -1,6 +1,6 @@
-const modalContainer = document.getElementById("modal-container");
-const modifyBtn = document.getElementById("modify-btn");
+const modalContainer = document.getElementById("modal-container"); //#modal-container dans index.html
 
+const modifyBtn = document.getElementById("modify-btn");
 modifyBtn.addEventListener("click", function () {
 	loadModalDel();
 });
@@ -13,7 +13,7 @@ async function loadModalDel() {
 	modal.style.display = "flex";
 	closeModalEvents(modal);
 	fetchProjects();
-
+	// si la modale a été relancée
 	const message = localStorage.getItem("message"); // Récupére le message de localStorage
 	displayMessage(message, "del-alerte"); // transmet le message et l'élement #html à implémenter
 	localStorage.removeItem("message"); // vide localStorage
@@ -126,6 +126,7 @@ function deleteProject(deleteIcon, projectId) {
 		});
 
 		if (response.ok) { localStorage.setItem("message", "Projet supprimé avec succès!");
+		
 		} else { localStorage.setItem("message", "Erreur lors de la suppression projet!"); }
 	});
 }
@@ -165,6 +166,7 @@ async function submitPhoto(form) {
 
 	if (response.ok) {
 		localStorage.setItem("message", "Photo ajoutée avec succès!");
+		// AJOUTER LA PHOTO
 	} else {
 		localStorage.setItem("message", "Erreur lors de l'ajout de la photo!");
 	}
