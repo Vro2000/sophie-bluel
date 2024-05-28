@@ -57,7 +57,7 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0;
+	margin: 108px 0 50px 0;
 }
 section {
 	margin: 50px 0 90px 0;
@@ -138,21 +138,16 @@ li:hover, a:hover {
 	display: none;
 }
 #mode-edition{
+	position: fixed;
+    top: 0;
+    left: 0;
+	width: 100vw; /* 100% de la largeur de la fenêtre */
 	padding-top: 20px;
 	text-align: center;
 	height: 38px;
 	color: white;
 	background-color: black;
-}
-
-#mode-edition2{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 58px;
-	color: white;
-	background-color: black;
-	gap: 10px;
+	z-index: 5;
 }
 .modify-btn {
 	position: absolute;

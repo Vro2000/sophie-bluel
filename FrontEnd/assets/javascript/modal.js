@@ -13,10 +13,6 @@ async function loadModalDel() {
 	modal.style.display = "flex";
 	closeModalEvents(modal);
 	fetchProjects();
-	// si la modale a été relancée
-	const message = localStorage.getItem("message"); // Récupére le message de localStorage
-	displayMessage(message, "del-alerte"); // transmet le message et l'élement #html à implémenter
-	localStorage.removeItem("message"); // vide localStorage
 
 	const addPhotoBtn = document.getElementById("add-photo-btn");
 	addPhotoBtn.addEventListener("click", loadModalAdd);
@@ -32,10 +28,7 @@ async function loadModalAdd() {
 	closeModalEvents(modal);
 	uploadPhotoEvents();
 	fetchCategories();
-
-	const message = localStorage.getItem("message"); // Récupérer le message de localStorage
-	displayMessage(message, "add-alerte"); // transmet le message et l'élement #html à implémenter
-	localStorage.removeItem("message"); // vide localStorage
+	verifieFormulaireRempli()
 
 	const backBtn = modal.querySelector(".back");
 	backBtn.addEventListener("click", loadModalDel);
@@ -71,12 +64,12 @@ function fetchProjects() {
 		// Créer un élément icône poubelle
 		const deleteIcon = document.createElement("span");
 		deleteIcon.classList.add("delete-icon");
-		deleteIcon.innerHTML = "&#128465;";
+		deleteIcon.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
 		projectDiv.appendChild(deleteIcon);
 		container.appendChild(projectDiv);
 
 		// Configurer la fonction suppression
-		deleteProject(deleteIcon, project.id);
+		deleteProject(project.id, deleteIcon);
 	});
 }
 
@@ -113,7 +106,7 @@ function uploadPhotoEvents() {
     });
 }
 
-function deleteProject(deleteIcon, projectId) {
+function deleteProject(projectId, deleteIcon) {
 	deleteIcon.addEventListener("click", async (event) => {
 		event.preventDefault(); // Empêche le comportement par défaut
 
@@ -125,31 +118,58 @@ function deleteProject(deleteIcon, projectId) {
 				Authorization: "Bearer " + localStorage.getItem("token"), },
 		});
 
-		if (response.ok) { localStorage.setItem("message", "Projet supprimé avec succès!");
+		if (response.ok){
+		displayMessage("Projet supprimé avec succès!", "del-alerte");
+
+		// mettre à jour le tableau projetsTab :
+		const projectIndex = projetsTab.findIndex(project => project.id === projectId); //renvoi -1 si false
+		if (projectIndex !== -1) { projetsTab.splice(projectIndex, 1);} //supprime depuis projectIndex jusqu'à 1 élément
+
+		fetchProjects(); // actualise miniatures projets modal.del
+		galleryProjetsFonct(0) // actualise la gallerie de index.html
 		
-		} else { localStorage.setItem("message", "Erreur lors de la suppression projet!"); }
+		} else { displayMessage("Erreur lors de la suppression projet!", "del-alerte");}
 	});
+}
+
+function verifieFormulaireRempli() {
+    const uploadPhoto = document.querySelector("#upload-photo");
+    const photoTitle = document.querySelector("#photo-title");
+    const categorySelect = document.querySelector("#category-select");
+    const submitButton = document.querySelector("#submit-photo");
+
+    uploadPhoto.addEventListener("change", updateButtonState);
+    photoTitle.addEventListener("input", updateButtonState);
+    categorySelect.addEventListener("change", updateButtonState);
+
+    function updateButtonState() {
+        let isValid = uploadPhoto.files.length > 0 && photoTitle.value.trim() !== "" && categorySelect.value !== "";
+        submitButton.className = isValid ? "valid" : "invalid";
+     }
 }
 
 
 async function submitPhoto(form) {
-	
+
 	const uploadPhoto = form.querySelector("#upload-photo");
 	const photoTitle = form.querySelector("#photo-title");
 	const categorySelect = form.querySelector("#category-select");
+	const submitButton = form.querySelector("#submit-photo");
 
-	if (!uploadPhoto.files.length) {
-		displayMessage("Veuillez ajouter une photo !", "add-alerte"); //(message , classname)
-		return;
-	}
-	if (!photoTitle.value.trim()) {
-		displayMessage("Veuillez entrer un titre !", "add-alerte");
-		return;
-	}
-	if (!categorySelect.value) {
-		displayMessage("Veuillez sélectionner une catégorie !", "add-alerte");
-		return;
-	}
+        if (!uploadPhoto.files.length) {
+            displayMessage("Veuillez ajouter une photo !", "add-alerte");
+             return
+        }
+        if (!photoTitle.value.trim()) {
+            displayMessage("Veuillez entrer un titre !", "add-alerte");
+             return
+        }
+        if (!categorySelect.value) {
+            displayMessage("Veuillez sélectionner une catégorie !", "add-alerte");
+             return
+        }
+	
+		
 	const formData = new FormData(); // récupération des données saisies pour construire le formulaire
 	formData.append("image", uploadPhoto.files[0]);
 	formData.append("title", photoTitle.value);
@@ -165,15 +185,35 @@ async function submitPhoto(form) {
 	});
 
 	if (response.ok) {
-		localStorage.setItem("message", "Photo ajoutée avec succès!");
-		// AJOUTER LA PHOTO
+		displayMessage("Photo ajoutée avec succès!", "add-alerte");
+
+		// mettre à jour le tableau projetsTab :
+		let newProject = await response.json();
+		newProject.categoryId = parseInt(newProject.categoryId, 10); // parceque le serveur renvoi "nb" au lieu de nb
+		projetsTab.push(newProject);
+			
+		form.reset(); // réinitialise le formulaire
+		// réinitialise l'aperçu photo :
+		const photoPreview = document.getElementById("photo-preview");
+		photoPreview.src = "";
+		photoPreview.style.display = "none";
+		document.querySelector(".upload-icon").style.display = "block";  
+		document.querySelector('label[for="upload-photo"]').style.display = "block"; 
+		document.querySelector(".upload-info").style.display = "block"; 
+
+		galleryProjetsFonct(0) //actualise la gallerie de index.html
+	 	submitButton.className = "invalid"; // Réinitialise le css du bouton de soumission
+		
 	} else {
-		localStorage.setItem("message", "Erreur lors de l'ajout de la photo!");
+		displayMessage("Erreur lors de l'ajout de la photo!", "add-alerte"); 
 	}
 }
+
 
 function displayMessage(message, ClassHtml) { 	// affiche les messages alertes dans les modales
 	const messageAlerte = document.getElementById(ClassHtml);
 	messageAlerte.innerText = message;
-	setTimeout(() => { messageAlerte.innerText = ""; }, 5000); // efface le message
+	setTimeout(() => { messageAlerte.innerText = ""; }, 4000); // efface le message
 }
+
+

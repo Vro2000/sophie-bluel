@@ -10,7 +10,6 @@ Promise.all([
 	projetsTab = ResponsesTab[0];
 	categoriesTab = ResponsesTab[1];
 	loadPageFonct();
-	checkAndLoadModal(); // Vérifier et charger la modale si nécessaire
 });
 
 function loadPageFonct() {
@@ -75,10 +74,9 @@ function galleryProjetsFonct(categorieId) {
 		selectedProjetsTab = projetsTab.filter((item) => item.categoryId === categorieId );
 		// méthode filter() : uniquement ceux qui ont la bonne categorieId
 	}
-	
+	console.log(selectedProjetsTab);
 	selectedProjetsTab.forEach((selectedProjet) => { // générer les éléments html :
 		const figureHtml = document.createElement("figure"); // le container
-
 		const imgHtml = document.createElement("img"); // l'image
 		imgHtml.src = selectedProjet.imageUrl;
 		imgHtml.alt = selectedProjet.title;
@@ -101,22 +99,4 @@ window.addEventListener("DOMContentLoaded", () => {
 	// Initialisation du DOM terminée, les données sont récupérées
 });
 
-// vérifie si une variable correspondant à une modale est présente dans local storage
-function checkAndLoadModal() {
-	const message = localStorage.getItem("message");
 
-	if (message) {
-		if (
-			message === "Projet supprimé avec succès!" ||
-			message === "Erreur lors de la suppression projet!"
-		) {
-			loadModalDel();
-		} else if (
-			message === "Photo ajoutée avec succès!" ||
-			message === "Erreur lors de l'ajout de la photo!"
-		) {
-			loadModalAdd();
-		}
-	
-	}
-}

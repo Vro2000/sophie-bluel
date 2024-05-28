@@ -117,26 +117,27 @@
     color: #444444;
 }
 
-.modal input[type="submit"] {
+#add-photo-btn, #submit-photo.valid, #submit-photo.invalid {
     font-family: 'Syne';
-	font-size: 14px;
+    font-size: 14px;
     font-weight: 300;
     color: white;
-    background-color: #1D6154;
     margin: 2.2em auto;
-	max-width: 240px;
-	height: 36px;
+    max-width: 240px;
+    height: 40px;
     padding-left: 60px;
-	padding-right: 60px;
+    padding-right: 60px;
     text-align: center;
     border-radius: 60px;
     border: none;
 }
-.modal input[type="submit"]:hover {
-	color: white;
-	background-color: #A7A7A7;
+#submit-photo.valid, #add-photo-btn {
+    background-color: #1D6154; 
 }
 
+#add-photo-btn:hover, #submit-photo.invalid, #submit-photo:hover {
+    background-color: #A7A7A7; 
+}
 
 .upload-container {
     width: 100%;
